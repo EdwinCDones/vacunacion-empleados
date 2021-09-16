@@ -22,6 +22,16 @@ public class Empleado {
 
     String password;
 
+    String rol;
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
     public Empleado(Integer id, String nombre, String cedula, String apellido, String correo) {
         super();
         this.id = id;

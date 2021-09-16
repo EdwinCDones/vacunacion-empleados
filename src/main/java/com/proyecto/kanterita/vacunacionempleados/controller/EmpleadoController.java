@@ -1,6 +1,7 @@
 package com.proyecto.kanterita.vacunacionempleados.controller;
 
 import com.proyecto.kanterita.vacunacionempleados.entity.Empleado;
+import com.proyecto.kanterita.vacunacionempleados.entity.EmpleadoRequest;
 import com.proyecto.kanterita.vacunacionempleados.repository.IEmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ public class EmpleadoController {
             empleadoResponse.setApellido(empleadoRequest.getApellido());
             empleadoResponse.setCedula(empleadoRequest.getCedula());
             empleadoResponse.setCorreo(empleadoRequest.getCorreo());
+            empleadoResponse.setRol(empleadoRequest.getRol());
             createUserAndPass(empleadoRequest, empleadoResponse);
 
             System.out.println("Usuario Hash " + empleadoResponse);
@@ -94,6 +96,24 @@ public class EmpleadoController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/empleado/login")
+    public ResponseEntity<Empleado> obtenerEmpleado(@RequestBody EmpleadoRequest empleadoRequest) {
+        try {
+            Empleado emp = empleadoRepository.findEmpleado(empleadoRequest.usuario, empleadoRequest.password);
+            if (emp == null) {
+
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            } else {
+
+                return new ResponseEntity<>(emp, HttpStatus.OK);
+            }
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 }
